@@ -8,8 +8,15 @@ class TelaLogin:
     def __init__(self, tela_login, banco):
         self.tela_login = tela_login
         self.banco = banco
-        self.tela_login.title('Tela de Login')
+        self.tela_login.title('UniReservas - Login')
         self.tela_login.configure(fg_color="#3F7CA0")
+
+        # Definir as dimensões da janela
+        largura = 300
+        altura = 575
+        x = (self.tela_login.winfo_screenwidth() - largura) // 2
+        y = (self.tela_login.winfo_screenheight() - altura) // 2
+        self.tela_login.geometry(f"{largura}x{altura}+{x}+{y}")
 
         self.frame = ctk.CTkFrame(tela_login, fg_color="#3F7CA0")
         self.frame.grid(column=0, row=0)
