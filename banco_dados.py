@@ -33,5 +33,12 @@ class BancoDeDados:
         self.desconectar()
         return usuario is not None  # retorna True se usuario existir ou Falso se não existir
 
+    def validar_email(self, email):
+        self.conectar()
+        self.cursor.execute("SELECT * FROM usuarios WHERE email = ?", (email,))
+        usuario = self.cursor.fetchone()
+        self.desconectar()
+        return usuario is not None
+
     def desconectar(self):
         self.conn.close()

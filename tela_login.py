@@ -10,13 +10,14 @@ class TelaLogin:
         self.banco = banco
         self.tela_login.title('UniReservas - Login')
         self.tela_login.configure(fg_color="#3F7CA0")
+        self.janela_recuperacao_senha = None
 
         # Definir as dimensões da janela
         largura = 300
         altura = 575
         x = (self.tela_login.winfo_screenwidth() - largura) // 2
         y = (self.tela_login.winfo_screenheight() - altura) // 2
-        self.tela_login.geometry(f"{largura}x{altura}+{x}+{y}")
+        self.tela_login.geometry(f"{largura}x{altura}+700+80")
 
         self.frame = ctk.CTkFrame(tela_login, fg_color="#3F7CA0")
         self.frame.grid(column=0, row=0)
@@ -55,7 +56,7 @@ class TelaLogin:
         self.cadastro_btn.grid(column=0, row=6, pady=(0, 10))
 
         # esqueceu senha botão
-        self.esqueceu_senha_btn = ctk.CTkButton(self.frame, text='Esqueceu sua senha?', text_color="#ffffff", font=malgungothic_bold_font, fg_color="#3F7CA0", corner_radius=20, cursor="hand2")
+        self.esqueceu_senha_btn = ctk.CTkButton(self.frame, text='Esqueceu sua senha?', text_color="#ffffff", font=malgungothic_bold_font, fg_color="#3F7CA0", corner_radius=20, cursor="hand2", command=self.abrir_tela_esqueceu_senha)
         self.esqueceu_senha_btn.grid(column=0, row=7)
 
         self.frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
@@ -70,6 +71,13 @@ class TelaLogin:
             messagebox.showinfo('Login', 'Login bem sucedido!')
         else:
             messagebox.showerror('Login', 'Usuário ou senha incorretos.')
+
+    def abrir_tela_esqueceu_senha(self):
+        from UniReservas.tela_esqueceu_senha import TelaEsqueceuSenha
+        self.tela_login.withdraw()
+        outra_janela = ctk.CTkToplevel()
+        TelaEsqueceuSenha(outra_janela, self.banco)
+        outra_janela.mainloop()
 
     def registrar(self):
         email = self.email_entry.get()
