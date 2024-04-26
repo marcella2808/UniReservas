@@ -2,14 +2,14 @@ import customtkinter as ctk
 from banco_dados import BancoDeDados
 from tela_login import TelaLogin
 
-# Criar a janela principal
+# cria janela de login
 login = ctk.CTk()
 
-# Criar objeto do banco de dados
+# cria objeto de BancoDeDados
 banco = BancoDeDados('usuarios.db')
 
-# Criar objeto da tela de login
+# cria objeto da tela de login
 tela_login = TelaLogin(login, banco)
 
-# Rodar a aplicação
+# roda a aplicação
 login.mainloop()
