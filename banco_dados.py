@@ -11,24 +11,51 @@ class BancoDeDados:
         self.conn = sqlite3.connect(self.nome_banco)  # cria uma instância de conn
         self.cursor = self.conn.cursor()  # cria uma instância de cursor
 
-    def criar_tabela(self):  # cria uma tabela para poder inserir os dados (usuário e senha)
+    def criar_tabela_usuarios(self):  # cria uma tabela para poder inserir os dados (usuário e senha)
         self.conectar()  # conecta com o banco
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS usuarios ( 
-                                id INTEGER PRIMARY KEY,
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS usuarios (
+                                id INTEGER PRIMARY KEY, 
+                                nome TEXT NOT NULL,
                                 email TEXT NOT NULL,
                                 senha TEXT NOT NULL)''')  # executa o comando SQL de criar tabela
         self.conn.commit()  # salva alterações
-        self.desconectar()  # desconecta do banco
+        self.desconectar()
 
-    def adicionar_usuario(self, email, senha):
+    def criar_tabela_laboratorios(self):
         self.conectar()
-        self.cursor.execute('''INSERT INTO usuarios (email, senha) VALUES (?, ?)''', (email, senha))
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS laboratorios (
+                                id INTEGER PRIMARY KEY,
+                                tipo TEXT NOT NULL,
+                                numero_lab INTEGER NOT NULL
+                                )''')
+        self.conn.commit()
+        self.desconectar()
+
+    def criar_tabela_reservas(self):
+        self.conectar()
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS Reservas (
+                            id INTEGER PRIMARY KEY,
+                            id_usuarios INTEGER,
+                            id_laboratorios INTEGER,
+                            data TEXT,
+                            hora_inicio TEXT,
+                            hora_fim TEXT,
+                            FOREIGN KEY (id_usuarios) REFERENCES usuarios(id),
+                            FOREIGN KEY (id_laboratorios) REFERENCES laboratorios(id)
+                            )''')
+        self.conn.commit()
+        self.desconectar()
+
+    def adicionar_usuario(self, nome, email, senha):
+        self.conectar()
+        self.cursor.execute('''INSERT INTO usuarios(nome, email, senha) VALUES (?, ?, ?)''', (nome, email, senha))
         self.conn.commit()
         self.desconectar()
 
     def validar_login(self, email, senha):
         self.conectar()
-        self.cursor.execute('''SELECT * FROM usuarios WHERE email = ? AND senha = ?''', (email, senha))  # realiza uma consulta
+        self.cursor.execute('''SELECT * FROM usuarios WHERE email = ? AND senha = ?''',
+                            (email, senha))  # realiza uma consulta
         usuario = self.cursor.fetchone()  # retorna os dados de usuário. Caso não houver, retorna None
         self.desconectar()
         return usuario is not None  # retorna True se usuario existir ou Falso se não existir
