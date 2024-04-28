@@ -37,7 +37,7 @@ class TelaEsqueceuSenha:
         self.recuperar_senha_lbl.grid(column=0, row=1, pady=(0, 20))
 
         # texto
-        self.recuperar_senha_txt_lbl = ctk.CTkLabel(self.frame, text='Para recuperar sua senha, preencha \no campo com seu e-mail.', font=jejugothic_font, text_color='#1B444E')
+        self.recuperar_senha_txt_lbl = ctk.CTkLabel(self.frame, text='Para recuperar sua senha, preencha \no campo com seu e-mail cadastrado.', font=jejugothic_font, text_color='#1B444E')
         self.recuperar_senha_txt_lbl.grid(column=0, row=2, pady=(0, 35))
 
         # legenda "e-mail"
@@ -49,15 +49,15 @@ class TelaEsqueceuSenha:
         self.email_entry.grid(column=0, row=4, pady=(0, 20), sticky='we')
 
         # botão de enviar e-mail
-        self.enviar_email_btn = ctk.CTkButton(self.frame, text='Enviar', text_color='#fff', fg_color='#2E2D71', corner_radius=20, height=30, cursor="hand2", font=jejugothic_font, command=self.enviar_email)
-        self.enviar_email_btn.grid(column=0, row=5, sticky='we')
+        self.enviar_email_btn = ctk.CTkButton(self.frame, text='Enviar', text_color='#fff', fg_color='#2E2D71', hover_color='#474691', corner_radius=20, height=30, cursor='hand2', font=jejugothic_font, command=self.enviar_email)
+        self.enviar_email_btn.grid(column=0, row=5, pady=(0, 15), sticky='we')
 
         # botão de voltar à tela de login
-        self.voltar_tela_login_btn = ctk.CTkButton(self.frame, text='Voltar', text_color='#000', fg_color='#f0f0f0', corner_radius=20, width=70, height=30, cursor='hand2', font=jejugothic_font, command=self.voltar_tela_login)
-        self.voltar_tela_login_btn.grid(column=0, row=6, pady=(85, 0), sticky='w')
+        self.voltar_tela_login_btn = ctk.CTkButton(self.frame, text='Voltar', text_color='#505050', fg_color='#fff', hover_color='#ddd', corner_radius=20, width=70, height=30, cursor='hand2', font=jejugothic_font, command=self.voltar_tela_login)
+        self.voltar_tela_login_btn.grid(column=0, row=6, sticky='we')
 
         # posiciona o frame na tela
-        self.frame.place(relx=0.5, rely=0.58, anchor=tk.CENTER)
+        self.frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     # volta à tela de login
     def voltar_tela_login(self):

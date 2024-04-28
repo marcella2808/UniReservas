@@ -69,12 +69,12 @@ class TelaCadastro:
         self.confirmar_senha_entry.grid(column=0, row=17, pady=(0, 20), sticky='w')
 
         # botão de cadastrar
-        self.cadastrar_btn = ctk.CTkButton(self.frame, text='Solicitar Acesso', text_color='#fff', command=self.cadastrar, fg_color='#2E2D71', corner_radius=20, font=jejugothic_font, height=30)
-        self.cadastrar_btn.grid(column=0, row=19, pady=(0, 20), sticky='we')
+        self.cadastrar_btn = ctk.CTkButton(self.frame, text='Solicitar Acesso', text_color='#fff', hover_color='#474691', command=self.cadastrar, fg_color='#2E2D71', corner_radius=20, font=jejugothic_font, height=30)
+        self.cadastrar_btn.grid(column=0, row=19, pady=(0, 15), sticky='we')
 
         # botão de voltar à tela de login
-        self.voltar_tela_login_btn = ctk.CTkButton(self.frame, text='Voltar', text_color='#000', command=self.voltar_tela_login, fg_color='#f0f0f0', corner_radius=20, font=jejugothic_font, width=70, height=30)
-        self.voltar_tela_login_btn.grid(column=0, row=20, pady=(0, 2), sticky='w')
+        self.voltar_tela_login_btn = ctk.CTkButton(self.frame, text='Voltar', text_color='#505050', command=self.voltar_tela_login, fg_color='#fff', hover_color='#ddd', corner_radius=20, font=jejugothic_font, width=70, height=30)
+        self.voltar_tela_login_btn.grid(column=0, row=20, sticky='we')
 
         # posiciona o frame na tela
         self.frame.place(relx=0.5, rely=0.55, anchor=tk.CENTER)

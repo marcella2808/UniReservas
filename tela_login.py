@@ -48,16 +48,16 @@ class TelaLogin:
         self.senha_entry.grid(column=0, row=4, pady=(0, 20))
 
         # botão de login
-        self.login_btn = ctk.CTkButton(self.frame, text='Entrar', command=self.realizar_login, fg_color='#2E2D71', corner_radius=20, width=200, height=30, cursor='hand2', font=jejugothic_font)
+        self.login_btn = ctk.CTkButton(self.frame, text='Entrar', hover_color='#1F1E54', command=self.realizar_login, fg_color='#2E2D71', corner_radius=20, width=200, height=30, cursor='hand2', font=jejugothic_font)
         self.login_btn.grid(column=0, row=5, pady=(0, 10))
 
         # botão de cadastro
-        self.cadastro_btn = ctk.CTkButton(self.frame, text='Cadastre-se', command=self.abrir_tela_cadastro, text_color='#2E2D71', fg_color='#3F7CA0', corner_radius=20, border_width=2, border_color='#2E2D71', width=200, height=30, cursor='hand2', font=jejugothic_font)
+        self.cadastro_btn = ctk.CTkButton(self.frame, text='Cadastre-se', command=self.abrir_tela_cadastro, text_color='#2E2D71', fg_color='#3F7CA0', hover_color='#3B7596', corner_radius=20, border_width=2, border_color='#2E2D71', width=200, height=30, cursor='hand2', font=jejugothic_font)
         self.cadastro_btn.grid(column=0, row=6, pady=(0, 10))
 
         # botão de esqueceu senha
-        self.esqueceu_senha_btn = ctk.CTkButton(self.frame, text='Esqueceu sua senha?', text_color='#fff', font=jejugothic_font, fg_color='#3F7CA0', corner_radius=20, cursor='hand2', command=self.abrir_tela_esqueceu_senha)
-        self.esqueceu_senha_btn.grid(column=0, row=7)
+        self.esqueceu_senha_btn = ctk.CTkButton(self.frame, text='Esqueceu sua senha?', text_color='#fff', hover_color='#3B7596', font=jejugothic_font, fg_color='#3F7CA0', corner_radius=20, cursor='hand2', command=self.abrir_tela_esqueceu_senha)
+        self.esqueceu_senha_btn.grid(column=0, row=7, sticky='we')
 
         # posiciona o frame no centro da janela
         self.frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
