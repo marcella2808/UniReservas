@@ -8,7 +8,7 @@ class TelaLogin:
     def __init__(self, tela_login, banco):
         self.tela_login = tela_login
         self.banco = banco
-        self.tela_login.title('UniReservas - Login')
+        self.tela_login.title('Login')
         self.tela_login.configure(fg_color='#3F7CA0')
         self.janela_recuperacao_senha = None
 
@@ -71,13 +71,20 @@ class TelaLogin:
         senha = self.senha_entry.get()
 
         if self.banco.validar_login(email, senha):
-            messagebox.showinfo('Login', 'Login bem sucedido!')
+            self.abrir_tela_suas_reservas()
         elif email.strip() == '':
             messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
         elif senha.strip() == '':
             messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
         else:
             messagebox.showerror('Login', 'Usuário ou senha incorretos.')
+
+    def abrir_tela_suas_reservas(self):
+        from tela_suas_reservas import TelaSuasReservas
+        self.tela_login.withdraw()
+        tela_suas_reservas = ctk.CTkToplevel()
+        TelaSuasReservas(tela_suas_reservas)
+        self.tela_login.wait_window(tela_suas_reservas)
 
     def abrir_tela_cadastro(self):
         from tela_cadastro import TelaCadastro

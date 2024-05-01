@@ -9,7 +9,7 @@ class TelaEsqueceuSenha:
         self.tela_esqueceu_senha = tela_esqueceu_senha
         self.banco = banco
         self.tela_login = tela_login
-        self.tela_esqueceu_senha.title('UniReservas - Esqueci minha senha')
+        self.tela_esqueceu_senha.title('Recuperar senha')
         self.tela_esqueceu_senha.configure(fg_color='#fff')
 
         # dimensões da janela
@@ -70,5 +70,7 @@ class TelaEsqueceuSenha:
         if self.banco.validar_email(email):
             messagebox.showinfo('Recuperar senha', 'E-mail enviado com sucesso!')
             self.voltar_tela_login()
+        elif email.strip() == '':
+            messagebox.showerror('Recuperar senha', 'Por favor, preencha o campo.')
         else:
             messagebox.showerror('Recuperar senha', 'Esse e-mail não está cadastrado.')
