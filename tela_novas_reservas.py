@@ -48,7 +48,7 @@ class TelaNovasReservas:
 
         self.selecione_data_lbl = ctk.CTkLabel(self.calendario_frame, text='SELECIONE A DATA DA RESERVA:', text_color='#484848',
                                                font=leaguespartan_font2)
-        self.selecione_data_lbl.grid(column=0, row=0, pady=(0, 20))
+        self.selecione_data_lbl.grid(column=0, row=0, pady=(0, 15))
 
         self.data_hoje = datetime.now()
         self.calendario = Calendar(self.calendario_frame, font=inter_font, cursor='hand2', mindate=self.data_hoje, showweeknumbers=False, locale='pt_BR', date_pattern='dd/mm/yyyy', firstweekday='sunday', background='#274598', foreground='white', headersbackground='white', headersforeground='#666', selectbackground='#274598', normalbackground='white', weekendbackground='white', normalforeground='#333', weekendforeground='#333', othermonthbackground='white', othermonthforeground='#aaa', othermonthwebackground='white', othermonthweforeground='#aaa', bordercolor='#e0e0e0')
@@ -61,13 +61,13 @@ class TelaNovasReservas:
         self.calendario.bind("<<CalendarSelected>>", self.mostrar_data_selecionada)
 
         self.horario_frame = ctk.CTkFrame(self.calendario_frame, fg_color='#fff')
-        self.horario_frame.grid(column=0, row=3, pady=(10, 0))
+        self.horario_frame.grid(column=0, row=3, pady=(15, 0))
 
         self.hora_inicio_lbl = ctk.CTkLabel(self.horario_frame, text='DE', text_color='#484848', font=leaguespartan_font2)
-        self.hora_inicio_lbl.grid(column=0, row=1, pady=(0, 2))
+        self.hora_inicio_lbl.grid(column=0, row=1)
 
         self.hora_fim_lbl = ctk.CTkLabel(self.horario_frame, text='ATÉ', text_color='#484848', font=leaguespartan_font2)
-        self.hora_fim_lbl.grid(column=2, row=1, pady=(0, 2))
+        self.hora_fim_lbl.grid(column=2, row=1)
 
         horas = ["06:00", "06:15", "06:30", "06:45", "07:00", "07:15", "07:30", "07:45", "08:00", "08:15",
          "08:30", "08:45", "09:00", "09:15", "09:30", "09:45", "10:00", "10:15", "10:30", "10:45",
