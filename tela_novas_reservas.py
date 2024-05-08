@@ -112,8 +112,12 @@ class TelaNovasReservas:
         else:
             return True
 
-    def abrir_tela_labs_disponiveis(self):
-        pass
+    def abrir_tela_labs_disponiveis(self):  # add tela de labs e mudar essa func pra la
+        from tela_reserva_confirmada import TelaReservaConfirmada
+        self.tela_novas_reservas.withdraw()
+        tela_reserva_confirmada = ctk.CTkToplevel()
+        TelaReservaConfirmada(tela_reserva_confirmada, self.calendario.get_date(), self.hora_inicio_entry.get(), self.hora_fim_entry.get())
+        self.tela_novas_reservas.wait_window(tela_reserva_confirmada)
 
     def continuar(self):
         if not self.validar_horarios():

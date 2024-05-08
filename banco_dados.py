@@ -33,7 +33,7 @@ class BancoDeDados:
 
     def criar_tabela_reservas(self):
         self.conectar()
-        self.cursor.execute('''CREATE TABLE IF NOT EXISTS Reservas (
+        self.cursor.execute('''CREATE TABLE IF NOT EXISTS reservas (
                             id INTEGER PRIMARY KEY,
                             id_usuarios INTEGER,
                             id_laboratorios INTEGER,
