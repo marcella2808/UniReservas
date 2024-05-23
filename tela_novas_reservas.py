@@ -112,12 +112,15 @@ class TelaNovasReservas:
         else:
             return True
 
-    def abrir_tela_labs_disponiveis(self):  # add tela de labs e mudar essa func pra la
-        from tela_reserva_confirmada import TelaReservaConfirmada
+    def abrir_tela_labs_disponiveis(self):
+        from tela_labs_disponiveis import TelaLabsDisponiveis
         self.tela_novas_reservas.withdraw()
-        tela_reserva_confirmada = ctk.CTkToplevel()
-        TelaReservaConfirmada(tela_reserva_confirmada, self.calendario.get_date(), self.hora_inicio_entry.get(), self.hora_fim_entry.get())
-        self.tela_novas_reservas.wait_window(tela_reserva_confirmada)
+        tela_labs_disponiveis = ctk.CTkToplevel()
+        data_selecionada = self.calendario.get_date()
+        hora_inicio = self.hora_inicio_entry.get()
+        hora_fim = self.hora_fim_entry.get()
+        TelaLabsDisponiveis(tela_labs_disponiveis, data_selecionada, hora_inicio, hora_fim, self.tela_novas_reservas)
+        self.tela_novas_reservas.wait_window(tela_labs_disponiveis)
 
     def continuar(self):
         if not self.validar_horarios():
@@ -126,9 +129,6 @@ class TelaNovasReservas:
             self.abrir_tela_labs_disponiveis()
 
     def mostrar_data_selecionada(self, event=None):
-        # Obtenha a data selecionada do calendário
         data_selecionada = self.calendario.get_date()
-
-        # Atualize o texto do rótulo que mostra a data selecionada
         self.data_selecionada_lbl.configure(text=data_selecionada)
 
