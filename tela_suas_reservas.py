@@ -1,5 +1,8 @@
 import tkinter as tk
+from io import BytesIO
+
 import customtkinter as ctk
+import requests
 from PIL import Image
 
 
@@ -24,16 +27,17 @@ class TelaSuasReservas:
         self.menu_frame.grid(column=0, row=0)
         self.menu_frame.place(relx=0.5, rely=0.12, anchor=tk.CENTER)
 
-        unireservas_logo = ctk.CTkImage(Image.open('imagens/unireservas_logo_branco.png'), size=(170, 51))
-        unireservas_logo_lbl = ctk.CTkLabel(self.menu_frame, text="", image=unireservas_logo)
+        url = 'https://github.com/marcella2808/UniReservas/blob/master/imagens/unireservas_logo_branco.png?raw=true'
+        response = requests.get(url)
+        unireservas_logo = ctk.CTkImage(Image.open(BytesIO(response.content)), size=(200, 60))
+        unireservas_logo_lbl = ctk.CTkLabel(self.menu_frame, text='', image=unireservas_logo)
+        unireservas_logo_lbl.grid(column=0, row=0)
         unireservas_logo_lbl.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
 
         self.suas_reservas_btn = ctk.CTkButton(self.menu_frame, text='Suas reservas', text_color='#fff', fg_color='#1C357B', hover_color='#1C357B', corner_radius=0, width=151, height=47, cursor='hand2', font=leaguespartan_font)
         self.suas_reservas_btn.place(rely=0.72, relx=0)
 
-        self.novas = ctk.CTkButton(self.menu_frame, text='Novas reservas', text_color='#fff',
-                                               fg_color='#274598', hover_color='#1C357B', corner_radius=0, width=150,
-                                               height=47, cursor='hand2', font=leaguespartan_font, command=self.abrir_tela_novas_reservas)
+        self.novas = ctk.CTkButton(self.menu_frame, text='Novas reservas', text_color='#fff', fg_color='#274598', hover_color='#1C357B', corner_radius=0, width=150, height=47, cursor='hand2', font=leaguespartan_font, command=self.abrir_tela_novas_reservas)
         self.novas.place(rely=0.72, relx=0.502)
 
     def abrir_tela_novas_reservas(self):

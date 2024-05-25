@@ -2,6 +2,8 @@ import customtkinter as ctk
 import tkinter as tk
 from PIL import Image
 from tkinter import messagebox
+import requests
+from io import BytesIO
 
 
 class TelaCadastro:
@@ -28,8 +30,11 @@ class TelaCadastro:
         jejugothic_font = ctk.CTkFont(family='JejuGothic', size=12)
 
         # imagem do logotipo
-        unireservas_logo = ctk.CTkImage(Image.open('imagens/unireservas_logo_azul.png'), size=(200, 60))
+        url = 'https://github.com/marcella2808/UniReservas/blob/master/imagens/unireservas_logo_azul.png?raw=true'
+        response = requests.get(url)
+        unireservas_logo = ctk.CTkImage(Image.open(BytesIO(response.content)), size=(200, 60))
         unireservas_logo_lbl = ctk.CTkLabel(self.tela_cadastro, text='', image=unireservas_logo)
+        unireservas_logo_lbl.grid(column=0, row=0)
         unireservas_logo_lbl.place(relx=0.5, rely=0.12, anchor=tk.CENTER)
 
         # título

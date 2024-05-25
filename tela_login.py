@@ -1,6 +1,10 @@
+from io import BytesIO
+
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import messagebox
+
+import requests
 from PIL import Image
 
 
@@ -27,7 +31,9 @@ class TelaLogin:
         self.frame.grid(column=0, row=0)
 
         # imagem do logotipo
-        unireservas_logo = ctk.CTkImage(Image.open('imagens/unireservas_logo_grande.png'), size=(200, 200))
+        url = 'https://github.com/marcella2808/UniReservas/blob/master/imagens/unireservas_logo_grande.png?raw=true'
+        response = requests.get(url)
+        unireservas_logo = ctk.CTkImage(Image.open(BytesIO(response.content)), size=(200, 200))
         unireservas_logo_lbl = ctk.CTkLabel(self.frame, text='', image=unireservas_logo)
         unireservas_logo_lbl.grid(column=0, row=0)
 
@@ -61,9 +67,6 @@ class TelaLogin:
 
         # posiciona o frame no centro da janela
         self.frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
-
-        # cria tabela de usuários
-        self.banco.criar_tabela_usuarios()
 
     # faz login
     def realizar_login(self):

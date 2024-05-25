@@ -1,5 +1,8 @@
 import tkinter as tk
+from io import BytesIO
+
 import customtkinter as ctk
+import requests
 from PIL import Image
 
 
@@ -29,8 +32,11 @@ class TelaLabsDisponiveis:
         self.menu_frame.grid(column=0, row=0)
         self.menu_frame.place(relx=0.5, rely=0.12, anchor=tk.CENTER)
 
-        unireservas_logo = ctk.CTkImage(Image.open('imagens/unireservas_logo_branco.png'), size=(170, 51))
-        unireservas_logo_lbl = ctk.CTkLabel(self.menu_frame, text="", image=unireservas_logo)
+        url = 'https://github.com/marcella2808/UniReservas/blob/master/imagens/unireservas_logo_branco.png?raw=true'
+        response = requests.get(url)
+        unireservas_logo = ctk.CTkImage(Image.open(BytesIO(response.content)), size=(200, 60))
+        unireservas_logo_lbl = ctk.CTkLabel(self.menu_frame, text='', image=unireservas_logo)
+        unireservas_logo_lbl.grid(column=0, row=0)
         unireservas_logo_lbl.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
 
         self.suas_reservas_btn = ctk.CTkButton(self.menu_frame, text='Suas reservas', text_color='#fff', fg_color='#274598', hover_color='#1C357B', corner_radius=0, width=151, height=47, cursor='hand2', font=leaguespartan_font)
@@ -46,7 +52,7 @@ class TelaLabsDisponiveis:
 
         voltar_image = ctk.CTkImage(Image.open('imagens/Back.png'), size=(16, 16))
         voltar_btn = ctk.CTkButton(self.titulo_frame, image=voltar_image, text='', width=25, height=25, fg_color='#fff',
-                                   cursor='hand2', hover_color='#fff')
+                                   cursor='hand2', hover_color='#fff', command=self.voltar_tela_novas_reservas)
         voltar_btn.grid(column=0, row=0)
 
         self.salas_disp_lbl = ctk.CTkLabel(self.titulo_frame, text='SALAS DISPONÍVEIS PARA RESERVA:',
@@ -101,7 +107,7 @@ class TelaLabsDisponiveis:
         self.lab7_btn = ctk.CTkRadioButton(self.lab7_frame, text='Lab 7', text_color='#494949', font=leaguespartan_font2, variable=self.btn_var, value=7, height=35, width=50)
         self.lab7_btn.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-        self.continuar_btn = ctk.CTkButton(tela_labs_disponiveis, text='Continuar', hover_color='#474691', fg_color='#2E2D71', command=self.abrir_tela_reserva_confirmada, corner_radius=20, font=jejugothic_font, height=30, width=200).place(rely=0.86, relx=0.5, anchor=tk.CENTER)
+        self.continuar_btn = ctk.CTkButton(tela_labs_disponiveis, text='Continuar', hover_color='#474691', fg_color='#2E2D71', command=self.abrir_tela_reserva_confirmada, corner_radius=20, font=jejugothic_font, height=30, width=200, cursor='hand2').place(rely=0.86, relx=0.5, anchor=tk.CENTER)
 
     def abrir_tela_novas_reservas(self):
         from tela_novas_reservas import TelaNovasReservas
@@ -122,5 +128,5 @@ class TelaLabsDisponiveis:
         from tela_reserva_confirmada import TelaReservaConfirmada
         self.tela_labs_disponiveis.withdraw()
         tela_reserva_confirmada = ctk.CTkToplevel()
-        TelaReservaConfirmada(tela_reserva_confirmada, self.data_selecionada, self.hora_inicio_selecionada, self.hora_fim_selecionada, self.obter_lab_selecionado())
+        TelaReservaConfirmada(tela_reserva_confirmada, self.data_selecionada, self.hora_inicio_selecionada, self.hora_fim_selecionada, self.obter_lab_selecionado(), self.tela_labs_disponiveis)
         self.tela_labs_disponiveis.wait_window(tela_reserva_confirmada)

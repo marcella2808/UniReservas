@@ -1,6 +1,8 @@
 import tkinter as tk
+from io import BytesIO
 from tkinter import ttk, messagebox
 import customtkinter as ctk
+import requests
 from PIL import Image
 from tkcalendar import Calendar
 from datetime import datetime
@@ -31,8 +33,11 @@ class TelaNovasReservas:
         self.menu_frame.grid(column=0, row=0)
         self.menu_frame.place(relx=0.5, rely=0.12, anchor=tk.CENTER)
 
-        unireservas_logo = ctk.CTkImage(Image.open('imagens/unireservas_logo_branco.png'), size=(170, 51))
-        unireservas_logo_lbl = ctk.CTkLabel(self.menu_frame, text="", image=unireservas_logo)
+        url = 'https://github.com/marcella2808/UniReservas/blob/master/imagens/unireservas_logo_branco.png?raw=true'
+        response = requests.get(url)
+        unireservas_logo = ctk.CTkImage(Image.open(BytesIO(response.content)), size=(200, 60))
+        unireservas_logo_lbl = ctk.CTkLabel(self.menu_frame, text='', image=unireservas_logo)
+        unireservas_logo_lbl.grid(column=0, row=0)
         unireservas_logo_lbl.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
 
         self.suas_reservas_btn = ctk.CTkButton(self.menu_frame, text='Suas reservas', text_color='#fff', fg_color='#274598', hover_color='#1C357B', corner_radius=0, width=151, height=47, cursor='hand2', font=leaguespartan_font1, command=self.voltar_tela_suas_reservas)
@@ -90,8 +95,8 @@ class TelaNovasReservas:
 
         self.continuar_btn = ctk.CTkButton(self.calendario_frame, text='Continuar', text_color='#fff',
                                            hover_color='#474691', fg_color='#2E2D71', cursor='hand2',
-                                           corner_radius=20, font=jejugothic_font, height=30, command=self.continuar)
-        self.continuar_btn.grid(column=0, row=4, pady=(20, 0), sticky='we')
+                                           corner_radius=20, font=jejugothic_font, height=30, width=200, command=self.continuar)
+        self.continuar_btn.grid(column=0, row=4, pady=(20, 0))
 
     def voltar_tela_suas_reservas(self):
         self.tela_novas_reservas.withdraw()

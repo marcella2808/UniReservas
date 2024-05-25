@@ -1,5 +1,9 @@
+from io import BytesIO
+
 import customtkinter as ctk
 import tkinter as tk
+
+import requests
 from PIL import Image
 from tkinter import messagebox
 
@@ -24,8 +28,11 @@ class TelaEsqueceuSenha:
         leaguespartan_font = ctk.CTkFont(family='League Spartan', size=20, weight='bold')
 
         # imagem do logotipo
-        unireservas_logo = ctk.CTkImage(Image.open('imagens/unireservas_logo_azul.png'), size=(200, 60))
-        unireservas_logo_lbl = ctk.CTkLabel(self.tela_esqueceu_senha, text="", image=unireservas_logo)
+        url = 'https://github.com/marcella2808/UniReservas/blob/master/imagens/unireservas_logo_azul.png?raw=true'
+        response = requests.get(url)
+        unireservas_logo = ctk.CTkImage(Image.open(BytesIO(response.content)), size=(200, 60))
+        unireservas_logo_lbl = ctk.CTkLabel(self.tela_esqueceu_senha, text='', image=unireservas_logo)
+        unireservas_logo_lbl.grid(column=0, row=0)
         unireservas_logo_lbl.place(relx=0.5, rely=0.12, anchor=tk.CENTER)
 
         # frame para agrupar widgets

@@ -1,16 +1,21 @@
 import tkinter as tk
+from io import BytesIO
+
 import customtkinter as ctk
+import requests
 from PIL import Image
 from tkinter import messagebox
 
 
+
 class TelaReservaConfirmada:
-    def __init__(self, tela_reserva_confirmada, data_selecionada, hora_inicio_selecionada, hora_fim_selecionada, lab_selecionado):
+    def __init__(self, tela_reserva_confirmada, data_selecionada, hora_inicio_selecionada, hora_fim_selecionada, lab_selecionado, tela_labs_disponiveis):
         self.tela_reserva_confirmada = tela_reserva_confirmada
         self.data_selecionada = data_selecionada
         self.hora_inicio_selecionada = hora_inicio_selecionada
         self.hora_fim_selecionada = hora_fim_selecionada
         self.lab_selecionado = lab_selecionado
+        self.tela_labs_disponiveis = tela_labs_disponiveis
 
         self.tela_reserva_confirmada.title('Confirmação de reserva')
         self.tela_reserva_confirmada.configure(fg_color='#fff')
@@ -30,8 +35,11 @@ class TelaReservaConfirmada:
         self.menu_frame.grid(column=0, row=0)
         self.menu_frame.place(relx=0.5, rely=0.12, anchor=tk.CENTER)
 
-        unireservas_logo = ctk.CTkImage(Image.open('imagens/unireservas_logo_branco.png'), size=(170, 51))
+        url = 'https://github.com/marcella2808/UniReservas/blob/master/imagens/unireservas_logo_branco.png?raw=true'
+        response = requests.get(url)
+        unireservas_logo = ctk.CTkImage(Image.open(BytesIO(response.content)), size=(200, 60))
         unireservas_logo_lbl = ctk.CTkLabel(self.menu_frame, text='', image=unireservas_logo)
+        unireservas_logo_lbl.grid(column=0, row=0)
         unireservas_logo_lbl.place(relx=0.5, rely=0.45, anchor=tk.CENTER)
 
         self.suas_reservas_btn = ctk.CTkButton(self.menu_frame, text='Suas reservas', text_color='#fff', fg_color='#274598', hover_color='#1C357B', corner_radius=0, width=151, height=47, cursor='hand2', font=leaguespartan_font1, command=self.abrir_tela_suas_reservas)
@@ -46,7 +54,7 @@ class TelaReservaConfirmada:
         self.titulo_frame.place(relx=0.4, rely=0.35, anchor=tk.CENTER)
 
         voltar_image = ctk.CTkImage(Image.open('imagens/Back.png'), size=(16, 16))
-        voltar_btn = ctk.CTkButton(self.titulo_frame, image=voltar_image, text='', width=25, height=25, fg_color='#fff', cursor='hand2', hover_color='#fff')
+        voltar_btn = ctk.CTkButton(self.titulo_frame, image=voltar_image, text='', width=25, height=25, fg_color='#fff', cursor='hand2', hover_color='#fff', command=self.voltar_tela_labs_disponiveis)
         voltar_btn.grid(column=0, row=0)
 
         self.reserva_confirmada_lbl = ctk.CTkLabel(self.titulo_frame, text='CONFIRMAR RESERVA', font=leaguespartan_font2, text_color='#494949')
@@ -66,7 +74,7 @@ class TelaReservaConfirmada:
                                         width=160, corner_radius=7, font=leaguespartan_font2)
         self.lab_lbl.place(relx=0.5, rely=0.75, anchor=tk.CENTER)
 
-        self.confirmar_btn = ctk.CTkButton(tela_reserva_confirmada, text='Confirmar', hover_color='#474691', fg_color='#2E2D71', corner_radius=20, font=jejugothic_font, height=30, width=200, command=self.confirmar_reserva).place(
+        self.confirmar_btn = ctk.CTkButton(tela_reserva_confirmada, text='Confirmar', hover_color='#474691', fg_color='#2E2D71', corner_radius=20, font=jejugothic_font, height=30, width=200, command=self.confirmar_reserva, cursor='hand2').place(
             rely=0.8, relx=0.5, anchor=tk.CENTER)
 
     def abrir_tela_suas_reservas(self):
@@ -77,9 +85,9 @@ class TelaReservaConfirmada:
         self.tela_reserva_confirmada.wait_window(tela_suas_reservas)
 
     def voltar_tela_labs_disponiveis(self):
-        pass
+        self.tela_reserva_confirmada.withdraw()
+        self.tela_labs_disponiveis.deiconify()
 
     def confirmar_reserva(self):
         messagebox.showinfo('Confirmação de reserva', 'Reserva confirmada com sucesso!')
-
-
+        self.abrir_tela_suas_reservas()
