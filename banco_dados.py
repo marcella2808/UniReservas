@@ -56,13 +56,13 @@ class BancoDeDados:
         self.conectar()
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS reservas (
                             id INTEGER PRIMARY KEY,
-                            id_usuarios INTEGER,
-                            id_laboratorios INTEGER,
+                            id_usuario INTEGER,
+                            id_laboratorio INTEGER,
                             data TEXT,
                             hora_inicio TEXT,
                             hora_fim TEXT,
-                            FOREIGN KEY (id_usuarios) REFERENCES usuarios(id),
-                            FOREIGN KEY (id_laboratorios) REFERENCES laboratorios(id)
+                            FOREIGN KEY (id_usuario) REFERENCES usuario(id),
+                            FOREIGN KEY (id_laboratorio) REFERENCES laboratorio(id)
                             )''')
         self.conn.commit()
         self.desconectar()
@@ -73,30 +73,37 @@ class BancoDeDados:
         self.conn.commit()
         self.desconectar()
 
-    '''def adicionar_reserva(self, email):
+    '''def adicionar_reserva(self):
         self.conectar()
-        self.cursor.execute(''''SELECT * FROM usuarios WHERE email = ?'''', (email,))
-        id_usuario = self.cursor.fetchone()[0]
-        from tela_labs_disponiveis import TelaLabsDisponiveis
-        from tela_novas_reservas import TelaNovasReservas
-        tela_novas = TelaNovasReservas(tela_novas_reservas=None, tela_suas_reservas=None)
-        data = tela_novas.calendario.get_date()
-        hora_inicio = tela_novas.hora_inicio_entry.get()
-        hora_fim = tela_novas.hora_fim_entry.get()
-        tela_labs = TelaLabsDisponiveis(tela_labs_disponiveis=None, data_selecionada=None, hora_inicio_selecionada=None, hora_fim_selecionada=None, tela_novas_reservas=None)
-        id_lab = tela_labs.obter_lab_selecionado()
+        from tela_cadastro import TelaCadastro
+        cadastro = TelaCadastro(tela_cadastro=None, banco=None, tela_login=None)
+        email = cadastro.email_entry.get()
+        id_usuario = self.buscar_id_usuario(email)'''
 
-        infos = [
-            id_usuario,
-            id_lab,
-            data,
-            hora_inicio,
-            hora_fim
-        ]
-
-        self.cursor.execute(''''INSERT INTO reservas(id_usuarios, id_laboratorios, data, hora_inicio, hora_fim) VALUES (?,?,?,?,?)'''', infos)
+    def adicionar_reserva(self, id_usuario, id_laboratorio, data, hora_inicio, hora_fim):
+        self.conectar()
+        self.cursor.execute(
+            "INSERT INTO reservas (id_usuario, id_laboratorio, data, hora_inicio, hora_fim) VALUES (?, ?, ?, ?, ?)", (id_usuario, id_laboratorio, data, hora_inicio, hora_fim))
         self.conn.commit()
-        self.desconectar()'''
+        self.desconectar()
+
+    def buscar_id_usuario(self, email):
+        self.conectar()
+        self.cursor.execute("SELECT id FROM usuarios WHERE email = ?", (email,))
+        resultado = self.cursor.fetchone()
+        if resultado:
+            return resultado[0]
+        else:
+            return None
+
+    def buscar_id_laboratorio(self, lab_tipo):
+        self.cursor.execute("SELECT id FROM laboratorios WHERE tipo = ?", (lab_tipo,))
+        resultado = self.cursor.fetchone()
+        if resultado:
+            return resultado[0]
+        else:
+            return None
+
 
     def validar_login(self, email, senha):
         self.conectar()

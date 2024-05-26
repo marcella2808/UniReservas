@@ -86,7 +86,7 @@ class TelaLogin:
         from tela_suas_reservas import TelaSuasReservas
         self.tela_login.withdraw()
         tela_suas_reservas = ctk.CTkToplevel()
-        TelaSuasReservas(tela_suas_reservas)
+        TelaSuasReservas(tela_suas_reservas, self.banco)
         self.tela_login.wait_window(tela_suas_reservas)
 
     def abrir_tela_cadastro(self):

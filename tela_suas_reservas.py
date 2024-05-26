@@ -7,8 +7,9 @@ from PIL import Image
 
 
 class TelaSuasReservas:
-    def __init__(self, tela_suas_reservas):
+    def __init__(self, tela_suas_reservas, banco):
         self.tela_suas_reservas = tela_suas_reservas
+        self.banco = banco
 
         self.tela_suas_reservas.title('Suas reservas')
         self.tela_suas_reservas.configure(fg_color='#fff')
@@ -44,5 +45,5 @@ class TelaSuasReservas:
         from tela_novas_reservas import TelaNovasReservas
         self.tela_suas_reservas.withdraw()
         tela_novas_reservas = ctk.CTkToplevel()
-        TelaNovasReservas(tela_novas_reservas, self.tela_suas_reservas)
+        TelaNovasReservas(tela_novas_reservas, self.tela_suas_reservas, self.banco)
         self.tela_suas_reservas.wait_window(tela_novas_reservas)
