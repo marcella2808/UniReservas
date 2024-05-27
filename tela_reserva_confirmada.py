@@ -8,7 +8,7 @@ from tkinter import messagebox
 
 
 class TelaReservaConfirmada:
-    def __init__(self, tela_reserva_confirmada, data_selecionada, hora_inicio_selecionada, hora_fim_selecionada, lab_selecionado, tela_labs_disponiveis, banco):
+    def __init__(self, tela_reserva_confirmada, data_selecionada, hora_inicio_selecionada, hora_fim_selecionada, lab_selecionado, tela_labs_disponiveis, banco, email):
         self.tela_reserva_confirmada = tela_reserva_confirmada
         self.data_selecionada = data_selecionada
         self.hora_inicio_selecionada = hora_inicio_selecionada
@@ -16,6 +16,7 @@ class TelaReservaConfirmada:
         self.lab_selecionado = lab_selecionado
         self.tela_labs_disponiveis = tela_labs_disponiveis
         self.banco = banco
+        self.email = email
 
         self.tela_reserva_confirmada.title('Confirmação de reserva')
         self.tela_reserva_confirmada.configure(fg_color='#fff')
@@ -81,7 +82,7 @@ class TelaReservaConfirmada:
         from tela_suas_reservas import TelaSuasReservas
         self.tela_reserva_confirmada.withdraw()
         tela_suas_reservas = ctk.CTkToplevel()
-        TelaSuasReservas(tela_suas_reservas, self.banco)
+        TelaSuasReservas(tela_suas_reservas, self.banco, self.email)
         self.tela_reserva_confirmada.wait_window(tela_suas_reservas)
 
     def voltar_tela_labs_disponiveis(self):
@@ -89,7 +90,7 @@ class TelaReservaConfirmada:
         self.tela_labs_disponiveis.deiconify()
 
     def confirmar_reserva(self):
-        email_usuario = "a"
+        email_usuario = self.email
         id_usuario = self.banco.buscar_id_usuario(email_usuario)
         id_laboratorio = self.banco.buscar_id_laboratorio("Lab " + str(self.lab_selecionado))
 

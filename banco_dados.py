@@ -73,13 +73,6 @@ class BancoDeDados:
         self.conn.commit()
         self.desconectar()
 
-    '''def adicionar_reserva(self):
-        self.conectar()
-        from tela_cadastro import TelaCadastro
-        cadastro = TelaCadastro(tela_cadastro=None, banco=None, tela_login=None)
-        email = cadastro.email_entry.get()
-        id_usuario = self.buscar_id_usuario(email)'''
-
     def adicionar_reserva(self, id_usuario, id_laboratorio, data, hora_inicio, hora_fim):
         self.conectar()
         self.cursor.execute(

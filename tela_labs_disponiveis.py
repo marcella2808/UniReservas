@@ -7,13 +7,14 @@ from PIL import Image
 
 
 class TelaLabsDisponiveis:
-    def __init__(self, tela_labs_disponiveis, data_selecionada, hora_inicio_selecionada, hora_fim_selecionada, tela_novas_reservas, banco):
+    def __init__(self, tela_labs_disponiveis, data_selecionada, hora_inicio_selecionada, hora_fim_selecionada, tela_novas_reservas, banco, email):
         self.tela_labs_disponiveis = tela_labs_disponiveis
         self.data_selecionada = data_selecionada
         self.hora_inicio_selecionada = hora_inicio_selecionada
         self.hora_fim_selecionada = hora_fim_selecionada
         self.tela_novas_reservas = tela_novas_reservas
         self.banco = banco
+        self.email = email
 
         self.tela_labs_disponiveis.title('Laboratórios disponíveis')
         self.tela_labs_disponiveis.configure(fg_color='#fff')
@@ -114,7 +115,7 @@ class TelaLabsDisponiveis:
         from tela_novas_reservas import TelaNovasReservas
         self.tela_labs_disponiveis.withdraw()
         tela_novas_reservas = ctk.CTkToplevel()
-        TelaNovasReservas(tela_novas_reservas, self.tela_labs_disponiveis)
+        TelaNovasReservas(tela_novas_reservas, self.tela_labs_disponiveis, self.email)
         self.tela_labs_disponiveis.wait_window(tela_novas_reservas)
 
     def voltar_tela_novas_reservas(self):
@@ -129,5 +130,5 @@ class TelaLabsDisponiveis:
         from tela_reserva_confirmada import TelaReservaConfirmada
         self.tela_labs_disponiveis.withdraw()
         tela_reserva_confirmada = ctk.CTkToplevel()
-        TelaReservaConfirmada(tela_reserva_confirmada, self.data_selecionada, self.hora_inicio_selecionada, self.hora_fim_selecionada, self.obter_lab_selecionado(), self.tela_labs_disponiveis, self.banco)
+        TelaReservaConfirmada(tela_reserva_confirmada, self.data_selecionada, self.hora_inicio_selecionada, self.hora_fim_selecionada, self.obter_lab_selecionado(), self.tela_labs_disponiveis, self.banco, self.email)
         self.tela_labs_disponiveis.wait_window(tela_reserva_confirmada)

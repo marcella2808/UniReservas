@@ -10,10 +10,11 @@ from datetime import date
 
 
 class TelaNovasReservas:
-    def __init__(self, tela_novas_reservas, tela_suas_reservas, banco):
+    def __init__(self, tela_novas_reservas, tela_suas_reservas, banco, email):
         self.tela_novas_reservas = tela_novas_reservas
         self.tela_suas_reservas = tela_suas_reservas
         self.banco = banco
+        self.email = email
         self.tela_novas_reservas.title('Novas reservas')
         self.tela_novas_reservas.configure(fg_color='#fff')
 
@@ -125,7 +126,7 @@ class TelaNovasReservas:
         data_selecionada = self.calendario.get_date()
         hora_inicio = self.hora_inicio_entry.get()
         hora_fim = self.hora_fim_entry.get()
-        TelaLabsDisponiveis(tela_labs_disponiveis, data_selecionada, hora_inicio, hora_fim, self.tela_novas_reservas, self.banco)
+        TelaLabsDisponiveis(tela_labs_disponiveis, data_selecionada, hora_inicio, hora_fim, self.tela_novas_reservas, self.banco, self.email)
         self.tela_novas_reservas.wait_window(tela_labs_disponiveis)
 
     def continuar(self):
