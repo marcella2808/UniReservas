@@ -97,6 +97,19 @@ class BancoDeDados:
         else:
             return None
 
+    def contar_reservas_usuario(self, id_usuario):
+        self.conectar()
+        self.cursor.execute("SELECT COUNT(*) FROM reservas WHERE id_usuario = ?", (id_usuario,))
+        result = self.cursor.fetchone()[0]
+        return result
+
+    def listar_reservas_usuario(self, id_usuario):
+        self.conectar()
+        self.cursor.execute("SELECT data, hora_inicio, hora_fim, id_laboratorio FROM reservas WHERE id_usuario = ?",
+                            (id_usuario,))
+        reservas = self.cursor.fetchall()
+        self.desconectar()
+        return reservas
 
     def validar_login(self, email, senha):
         self.conectar()

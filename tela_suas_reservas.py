@@ -1,5 +1,6 @@
 import tkinter as tk
 from io import BytesIO
+from tkinter import messagebox
 
 import customtkinter as ctk
 import requests
@@ -24,6 +25,7 @@ class TelaSuasReservas:
         # fontes
         jejugothic_font = ctk.CTkFont(family='JejuGothic', size=12)
         leaguespartan_font = ctk.CTkFont(family='League Spartan', size=13, weight='bold')
+        leaguespartan_font2 = ctk.CTkFont(family='League Spartan', size=13, weight='normal')
 
         self.menu_frame = ctk.CTkFrame(tela_suas_reservas, fg_color='#274598', height=160, corner_radius=0, width=300)
         self.menu_frame.grid(column=0, row=0)
@@ -41,6 +43,20 @@ class TelaSuasReservas:
 
         self.novas = ctk.CTkButton(self.menu_frame, text='Novas reservas', text_color='#fff', fg_color='#274598', hover_color='#1C357B', corner_radius=0, width=150, height=47, cursor='hand2', font=leaguespartan_font, command=self.abrir_tela_novas_reservas)
         self.novas.place(rely=0.72, relx=0.502)
+
+        self.reservas_frame = ctk.CTkFrame(tela_suas_reservas, fg_color='#fff', height=200)
+        self.reservas_frame.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+
+        id_usuario = self.banco.buscar_id_usuario(email)
+        self.reservas = self.banco.listar_reservas_usuario(id_usuario)
+
+        for reserva in self.reservas:
+            data, hora_inicio, hora_fim, id_lab = reserva
+            reserva_frame = ctk.CTkFrame(self.reservas_frame, fg_color='#f0f0f0', corner_radius=10)
+            reserva_frame.pack(pady=10, padx=10, fill="x")
+
+            data_lbl = ctk.CTkLabel(reserva_frame, text=f"Lab {id_lab}    {data}    {hora_inicio}", text_color='#494949', font=leaguespartan_font2)
+            data_lbl.pack(anchor='w', padx=10, pady=5)
 
     def abrir_tela_novas_reservas(self):
         from tela_novas_reservas import TelaNovasReservas
