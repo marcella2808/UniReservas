@@ -45,7 +45,7 @@ class TelaSuasReservas:
         id_usuario = self.banco.buscar_id_usuario(email)
         self.reservas = self.banco.listar_reservas_usuario(id_usuario)
 
-        if 0 < len(self.reservas) < 6:  # Caso a qtde de reservas seja entre 1 e 4, cria um frame normal
+        if 0 < len(self.reservas) < 6:  # Caso a qtde de reservas seja entre 1 e 5, cria um frame normal
             self.reservas_frame = ctk.CTkFrame(tela_suas_reservas, fg_color='#fff', height=200, width=200)
             self.reservas_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
@@ -56,7 +56,7 @@ class TelaSuasReservas:
                 data_lbl = ctk.CTkLabel(reserva_frame, text=f"Lab {id_lab}    {data}    {hora_inicio}", text_color='#494949', font=leaguespartan_font2)
                 data_lbl.pack(anchor='w', padx=10, pady=5)
 
-        elif len(self.reservas) >= 6:  # Caso a qtde de frames seja igual ou maior que 5, cria um frame com scroll
+        elif len(self.reservas) >= 6:  # Caso a qtde de frames seja igual ou maior que 6, cria um frame com scroll
             self.reservas2_frame = ctk.CTkScrollableFrame(tela_suas_reservas, fg_color='#fff', height=300, width=200)
             self.reservas2_frame.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
 
