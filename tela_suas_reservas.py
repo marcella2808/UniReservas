@@ -1,6 +1,5 @@
 import tkinter as tk
 from io import BytesIO
-from tkinter import messagebox
 
 import customtkinter as ctk
 import requests
@@ -23,7 +22,6 @@ class TelaSuasReservas:
         self.tela_suas_reservas.geometry(f"{largura}x{altura}+{x}+{y}")
 
         # fontes
-        jejugothic_font = ctk.CTkFont(family='JejuGothic', size=12)
         leaguespartan_font = ctk.CTkFont(family='League Spartan', size=13, weight='bold')
         leaguespartan_font2 = ctk.CTkFont(family='League Spartan', size=13, weight='normal')
 
@@ -44,19 +42,36 @@ class TelaSuasReservas:
         self.novas = ctk.CTkButton(self.menu_frame, text='Novas reservas', text_color='#fff', fg_color='#274598', hover_color='#1C357B', corner_radius=0, width=150, height=47, cursor='hand2', font=leaguespartan_font, command=self.abrir_tela_novas_reservas)
         self.novas.place(rely=0.72, relx=0.502)
 
-        self.reservas_frame = ctk.CTkFrame(tela_suas_reservas, fg_color='#fff', height=200)
-        self.reservas_frame.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
-
         id_usuario = self.banco.buscar_id_usuario(email)
         self.reservas = self.banco.listar_reservas_usuario(id_usuario)
 
-        for reserva in self.reservas:
-            data, hora_inicio, hora_fim, id_lab = reserva
-            reserva_frame = ctk.CTkFrame(self.reservas_frame, fg_color='#f0f0f0', corner_radius=10)
-            reserva_frame.pack(pady=10, padx=10, fill="x")
+        if 0 < len(self.reservas) < 6:  # Caso a qtde de reservas seja entre 1 e 4, cria um frame normal
+            self.reservas_frame = ctk.CTkFrame(tela_suas_reservas, fg_color='#fff', height=200, width=200)
+            self.reservas_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-            data_lbl = ctk.CTkLabel(reserva_frame, text=f"Lab {id_lab}    {data}    {hora_inicio}", text_color='#494949', font=leaguespartan_font2)
-            data_lbl.pack(anchor='w', padx=10, pady=5)
+            for reserva in self.reservas:
+                data, hora_inicio, hora_fim, id_lab = reserva
+                reserva_frame = ctk.CTkFrame(self.reservas_frame, fg_color='#f0f0f0', corner_radius=10, width=200)
+                reserva_frame.pack(pady=5, padx=10, fill="x")
+                data_lbl = ctk.CTkLabel(reserva_frame, text=f"Lab {id_lab}    {data}    {hora_inicio}", text_color='#494949', font=leaguespartan_font2)
+                data_lbl.pack(anchor='w', padx=10, pady=5)
+
+        elif len(self.reservas) >= 6:  # Caso a qtde de frames seja igual ou maior que 5, cria um frame com scroll
+            self.reservas2_frame = ctk.CTkScrollableFrame(tela_suas_reservas, fg_color='#fff', height=300, width=200)
+            self.reservas2_frame.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+
+            for reserva in self.reservas:
+                data, hora_inicio, hora_fim, id_lab = reserva
+                reserva_frame = ctk.CTkFrame(self.reservas2_frame, fg_color='#f0f0f0', corner_radius=10, width=200)
+                reserva_frame.pack(pady=5, padx=10, fill="x")
+
+                data_lbl = ctk.CTkLabel(reserva_frame, text=f"Lab {id_lab}   {data}   {hora_inicio}",
+                                        text_color='#494949', font=leaguespartan_font2)
+                data_lbl.pack(anchor='w', padx=10, pady=5)
+
+        else:  # Caso não existam reservas ainda, mostra uma mensagem "Não há reservas"
+            a = ctk.CTkLabel(self.tela_suas_reservas, text='Não há reservas', text_color='black')
+            a.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
 
     def abrir_tela_novas_reservas(self):
         from tela_novas_reservas import TelaNovasReservas
