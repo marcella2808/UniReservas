@@ -54,7 +54,7 @@ class TelaReservaConfirmada:
         self.titulo_frame = ctk.CTkFrame(tela_reserva_confirmada, fg_color='#fff')
         self.titulo_frame.place(relx=0.4, rely=0.35, anchor=tk.CENTER)
 
-        voltar_image = ctk.CTkImage(Image.open('imagens/Back.png'), size=(16, 16))
+        voltar_image = ctk.CTkImage(Image.open('imagens/voltar_icon.png'), size=(16, 16))
         voltar_btn = ctk.CTkButton(self.titulo_frame, image=voltar_image, text='', width=25, height=25, fg_color='#fff', cursor='hand2', hover_color='#fff', command=self.voltar_tela_labs_disponiveis)
         voltar_btn.grid(column=0, row=0)
 

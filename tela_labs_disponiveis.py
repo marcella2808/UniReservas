@@ -1,5 +1,6 @@
 import tkinter as tk
 from io import BytesIO
+from tkinter import messagebox
 
 import customtkinter as ctk
 import requests
@@ -52,7 +53,7 @@ class TelaLabsDisponiveis:
         self.titulo_frame = ctk.CTkFrame(tela_labs_disponiveis, fg_color='#fff')
         self.titulo_frame.place(relx=0.45, rely=0.35, anchor=tk.CENTER)
 
-        voltar_image = ctk.CTkImage(Image.open('imagens/Back.png'), size=(16, 16))
+        voltar_image = ctk.CTkImage(Image.open('imagens/voltar_icon.png'), size=(16, 16))
         voltar_btn = ctk.CTkButton(self.titulo_frame, image=voltar_image, text='', width=25, height=25, fg_color='#fff',
                                    cursor='hand2', hover_color='#fff', command=self.voltar_tela_novas_reservas)
         voltar_btn.grid(column=0, row=0)
@@ -127,8 +128,12 @@ class TelaLabsDisponiveis:
         return lab_selecionado
 
     def abrir_tela_reserva_confirmada(self):
-        from tela_reserva_confirmada import TelaReservaConfirmada
-        self.tela_labs_disponiveis.withdraw()
-        tela_reserva_confirmada = ctk.CTkToplevel()
-        TelaReservaConfirmada(tela_reserva_confirmada, self.data_selecionada, self.hora_inicio_selecionada, self.hora_fim_selecionada, self.obter_lab_selecionado(), self.tela_labs_disponiveis, self.banco, self.email)
-        self.tela_labs_disponiveis.wait_window(tela_reserva_confirmada)
+        if self.btn_var.get() == 0:
+            messagebox.showerror('Erro',
+                                 'Selecione um laboratório.')
+        else:
+            from tela_reserva_confirmada import TelaReservaConfirmada
+            self.tela_labs_disponiveis.withdraw()
+            tela_reserva_confirmada = ctk.CTkToplevel()
+            TelaReservaConfirmada(tela_reserva_confirmada, self.data_selecionada, self.hora_inicio_selecionada, self.hora_fim_selecionada, self.obter_lab_selecionado(), self.tela_labs_disponiveis, self.banco, self.email)
+            self.tela_labs_disponiveis.wait_window(tela_reserva_confirmada)

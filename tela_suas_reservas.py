@@ -1,5 +1,6 @@
 import tkinter as tk
 from io import BytesIO
+from tkinter import messagebox
 
 import customtkinter as ctk
 import requests
@@ -24,6 +25,7 @@ class TelaSuasReservas:
         # fontes
         leaguespartan_font = ctk.CTkFont(family='League Spartan', size=13, weight='bold')
         leaguespartan_font2 = ctk.CTkFont(family='League Spartan', size=13, weight='normal')
+        leaguespartan_font3 = ctk.CTkFont(family='League Spartan', size=12, weight='normal')
 
         self.menu_frame = ctk.CTkFrame(tela_suas_reservas, fg_color='#274598', height=160, corner_radius=0, width=300)
         self.menu_frame.grid(column=0, row=0)
@@ -45,33 +47,51 @@ class TelaSuasReservas:
         id_usuario = self.banco.buscar_id_usuario(email)
         self.reservas = self.banco.listar_reservas_usuario(id_usuario)
 
-        if 0 < len(self.reservas) < 6:  # Caso a qtde de reservas seja entre 1 e 4, cria um frame normal
+        if 0 < len(self.reservas) < 6:  # Caso a qtde de reservas seja entre 1 e 5, cria um frame normal
             self.reservas_frame = ctk.CTkFrame(tela_suas_reservas, fg_color='#fff', height=200, width=200)
-            self.reservas_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+            self.reservas_frame.place(relx=0.5, rely=0.3, anchor='n')
 
             for reserva in self.reservas:
-                data, hora_inicio, hora_fim, id_lab = reserva
-                reserva_frame = ctk.CTkFrame(self.reservas_frame, fg_color='#f0f0f0', corner_radius=10, width=200)
-                reserva_frame.pack(pady=5, padx=10, fill="x")
-                data_lbl = ctk.CTkLabel(reserva_frame, text=f"Lab {id_lab}    {data}    {hora_inicio}", text_color='#494949', font=leaguespartan_font2)
-                data_lbl.pack(anchor='w', padx=10, pady=5)
+                self.id_reserva, data, hora_inicio, hora_fim, id_lab = reserva
+                reserva_frame = ctk.CTkFrame(self.reservas_frame, fg_color='#f0f0f0', corner_radius=10, width=255, height=40)
+                reserva_frame.pack(pady=5, padx=10)
 
-        elif len(self.reservas) >= 6:  # Caso a qtde de frames seja igual ou maior que 5, cria um frame com scroll
-            self.reservas2_frame = ctk.CTkScrollableFrame(tela_suas_reservas, fg_color='#fff', height=300, width=200)
-            self.reservas2_frame.place(relx=0.5, rely=0.6, anchor=tk.CENTER)
+                lixeira_icon = ctk.CTkImage(Image.open('imagens/lixeira_icon.png'), size=(17, 17))
+                lixeira_icon_btn = ctk.CTkButton(reserva_frame, text='', image=lixeira_icon, fg_color='#f0f0f0', width=30,
+                                              height=30, cursor='hand2', hover_color='#ddd', command=lambda id_reserva=self.id_reserva: self.deletar_reserva(id_reserva))
+                lixeira_icon_btn.place(relx=0.923, rely=0.5, anchor=tk.CENTER)
 
-            for reserva in self.reservas:
-                data, hora_inicio, hora_fim, id_lab = reserva
-                reserva_frame = ctk.CTkFrame(self.reservas2_frame, fg_color='#f0f0f0', corner_radius=10, width=200)
-                reserva_frame.pack(pady=5, padx=10, fill="x")
-
-                data_lbl = ctk.CTkLabel(reserva_frame, text=f"Lab {id_lab}   {data}   {hora_inicio}",
+                data_lbl = ctk.CTkLabel(reserva_frame, text=f"Lab {id_lab}    {data}    {hora_inicio} - {hora_fim}",
                                         text_color='#494949', font=leaguespartan_font2)
-                data_lbl.pack(anchor='w', padx=10, pady=5)
+                data_lbl.place(relx=0.45, rely=0.54, anchor=tk.CENTER)
+
+        elif len(self.reservas) >= 6:  # Caso a qtde de frames seja igual ou maior que 6, cria um frame com scroll
+            self.reservas2_frame = ctk.CTkScrollableFrame(tela_suas_reservas, fg_color='#fff', height=300, width=250)
+            self.reservas2_frame.place(relx=0.5, rely=0.3, anchor='n')
+
+            for reserva in self.reservas:
+                self.id_reserva, data, hora_inicio, hora_fim, id_lab = reserva
+
+                reserva_frame = ctk.CTkFrame(self.reservas2_frame, fg_color='#f0f0f0', corner_radius=10, width=250, height=40)
+                reserva_frame.pack(pady=5, padx=10)
+
+                lixeira_icon = ctk.CTkImage(Image.open('imagens/lixeira_icon.png'), size=(17, 17))
+                lixeira_icon_btn = ctk.CTkButton(reserva_frame, text='', image=lixeira_icon, fg_color='#f0f0f0', width=30,
+                                              height=30, cursor='hand2', hover_color='#ddd', command=lambda id_reserva=self.id_reserva: self.deletar_reserva(id_reserva))
+                lixeira_icon_btn.place(relx=0.92, rely=0.5, anchor=tk.CENTER)
+
+                data_lbl = ctk.CTkLabel(reserva_frame, text=f"Lab {id_lab}   {data}   {hora_inicio} - {hora_fim}",
+                                        text_color='#494949', font=leaguespartan_font3)
+                data_lbl.place(relx=0.45, rely=0.54, anchor=tk.CENTER)
 
         else:  # Caso não existam reservas ainda, mostra uma mensagem "Não há reservas"
-            a = ctk.CTkLabel(self.tela_suas_reservas, text='Não há reservas', text_color='black')
-            a.place(relx=0.5, rely=0.4, anchor=tk.CENTER)
+            calendario_img = ctk.CTkImage(Image.open('imagens/calendario_x.png'), size=(200, 200))
+            calendario_img_lbl = ctk.CTkLabel(tela_suas_reservas, image=calendario_img, text='')
+            calendario_img_lbl.place(relx=0.5, rely=0.55, anchor=tk.CENTER)
+            nenhuma_reserva_lbl = ctk.CTkLabel(self.tela_suas_reservas, text='NÃO HÁ RESERVAS', text_color='#151515', font=leaguespartan_font)
+            nenhuma_reserva_lbl.place(relx=0.5, rely=0.73, anchor=tk.CENTER)
+            nenhuma_reserva_subtitulo_lbl = ctk.CTkLabel(self.tela_suas_reservas, text="Faça um agendamento em 'Novas reservas'", text_color='#444', font=leaguespartan_font3)
+            nenhuma_reserva_subtitulo_lbl.place(relx=0.5, rely=0.77, anchor=tk.CENTER)
 
     def abrir_tela_novas_reservas(self):
         from tela_novas_reservas import TelaNovasReservas
@@ -79,3 +99,16 @@ class TelaSuasReservas:
         tela_novas_reservas = ctk.CTkToplevel()
         TelaNovasReservas(tela_novas_reservas, self.tela_suas_reservas, self.banco, self.email)
         self.tela_suas_reservas.wait_window(tela_novas_reservas)
+
+    def atualizar_tela(self):
+        self.tela_suas_reservas.destroy()
+        nova = ctk.CTkToplevel()
+        TelaSuasReservas(nova, self.banco, self.email)
+        self.tela_suas_reservas.wait_window(nova)
+
+    def deletar_reserva(self, id_reserva):
+        if messagebox.askokcancel('Deletar reserva', 'Deseja deletar a reserva?'):
+            self.banco.deletar_reserva(id_reserva)
+            self.atualizar_tela()
+
+

@@ -105,11 +105,29 @@ class BancoDeDados:
 
     def listar_reservas_usuario(self, id_usuario):
         self.conectar()
-        self.cursor.execute("SELECT data, hora_inicio, hora_fim, id_laboratorio FROM reservas WHERE id_usuario = ?",
+        self.cursor.execute("SELECT id, data, hora_inicio, hora_fim, id_laboratorio FROM reservas WHERE id_usuario = ?",
                             (id_usuario,))
         reservas = self.cursor.fetchall()
         self.desconectar()
         return reservas
+
+    def buscar_reservas_por_email(self, email):
+        self.conectar()
+        self.cursor.execute('''
+            SELECT reservas.id, reservas.data, reservas.hora_inicio, reservas.hora_fim, reservas.id_laboratorio 
+            FROM reservas
+            JOIN usuarios ON reservas.id_usuario = usuarios.id
+            WHERE usuarios.email = ?
+        ''', (email,))
+        reservas = self.cursor.fetchall()
+        self.desconectar()
+        return reservas
+
+    def deletar_reserva(self, id_reserva):
+        self.conectar()
+        self.cursor.execute('''DELETE FROM reservas WHERE id = ?''', (id_reserva,))
+        self.conn.commit()
+        self.desconectar()
 
     def validar_login(self, email, senha):
         self.conectar()

@@ -6,7 +6,7 @@ from tela_login import TelaLogin
 login = ctk.CTk()
 
 # cria objeto de BancoDeDados
-banco = BancoDeDados('usuarios.db')
+banco = BancoDeDados('unireservas.db')
 
 # cria objeto da tela de login
 tela_login = TelaLogin(login, banco)
