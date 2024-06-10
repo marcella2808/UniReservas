@@ -86,26 +86,29 @@ class TelaCadastro:
         self.banco.criar_tabela_usuarios()
 
     def cadastrar(self):
-        nome = self.nome_entry.get()
-        email = self.email_entry.get()
-        senha = self.senha_entry.get()
-        confirmar_senha = self.confirmar_senha_entry.get()
+    nome = self.nome_entry.get()  # obtém o nome do campo de entrada
+    email = self.email_entry.get()  # obtém o email do campo de entrada
+    senha = self.senha_entry.get()  # obtém a senha do campo de entrada
+    confirmar_senha = self.confirmar_senha_entry.get()  # obtém a confirmação da senha
 
-        if nome.strip() == '':
-            messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
-        elif email.strip() == '':
-            messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
-        elif senha.strip() == '':
-            messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
-        elif confirmar_senha.strip() == '':
-            messagebox.showerror('Cadastro', 'Por favor, confirme a senha')
-        elif senha != confirmar_senha:
-            messagebox.showerror('Cadastro', 'Senhas não compatíveis, tente novamente.')
-        else:
-            messagebox.showinfo('Cadastro', 'Usuário cadastrado com sucesso!')
-            self.banco.adicionar_usuario(nome, email, senha)
-            self.voltar_tela_login()
+    # Verifica se algum campo está vazio e mostra uma mensagem de erro se necessário
+    if nome.strip() == '':
+        messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
+    elif email.strip() == '':
+        messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
+    elif senha.strip() == '':
+        messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
+    elif confirmar_senha.strip() == '':
+        messagebox.showerror('Cadastro', 'Por favor, confirme a senha')
+    elif senha != confirmar_senha:  # Verifica se as senhas coincidem
+        messagebox.showerror('Cadastro', 'Senhas não compatíveis, tente novamente.')
+    else:
+        # Se todas as validações passarem, mostra uma mensagem de sucesso e adiciona o usuário ao banco de dados
+        messagebox.showinfo('Cadastro', 'Usuário cadastrado com sucesso!')
+        self.banco.adicionar_usuario(nome, email, senha)
+        self.voltar_tela_login()  # Volta para a tela de login
 
-    def voltar_tela_login(self):
-        self.tela_cadastro.withdraw()
-        self.tela_login.deiconify()
+def voltar_tela_login(self):
+    self.tela_cadastro.withdraw()  # fecha a tela de cadastro
+    self.tela_login.deiconify()  # abre a tela de login
+
