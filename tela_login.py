@@ -70,24 +70,30 @@ class TelaLogin:
 
     # faz login
     def realizar_login(self):
+        # Obtém o email e senha digitados
         email = self.email_entry.get()
         senha = self.senha_entry.get()
 
+        # Valida o login
         if self.banco.validar_login(email, senha):
-            self.abrir_tela_suas_reservas()
+            self.abrir_tela_suas_reservas() # Abre a tela de suas reservas se o login for bem-sucedido
         elif email.strip() == '':
-            messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
+            messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos') # Mensagem de erro se o campo de email estiver vazio
         elif senha.strip() == '':
-            messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos')
+            messagebox.showerror('Cadastro', 'Por favor, preencha todos os campos') # Mensagem de erro se o campo de senha estiver vazio
         else:
-            messagebox.showerror('Login', 'Usuário ou senha incorretos.')
+            messagebox.showerror('Login', 'Usuário ou senha incorretos.') # Exibe mensagem de erro se o login for inválido
 
+    # abre tela de suas reservas
     def abrir_tela_suas_reservas(self):
         from tela_suas_reservas import TelaSuasReservas
-        self.tela_login.withdraw()
+        # Oculta a tela de login
+        self.tela_login.withdraw() 
+        # Cria uma nova janela CTkToplevel para a tela de suas reservas
         tela_suas_reservas = ctk.CTkToplevel()
-        TelaSuasReservas(tela_suas_reservas, self.banco, self.email_entry.get())
-        self.tela_login.wait_window(tela_suas_reservas)
+        # Inicializa a tela de suas reservas com a nova janela, o banco de dados e o email do usuário
+        TelaSuasReservas(tela_suas_reservas, self.banco, self.email_entry.get()) 
+        self.tela_login.wait_window(tela_suas_reservas) # Aguarda o fechamento da nova janela antes de continuar
 
     def abrir_tela_cadastro(self):
         from tela_cadastro import TelaCadastro
@@ -99,7 +105,8 @@ class TelaLogin:
     # abre tela de esqueceu senha
     def abrir_tela_esqueceu_senha(self):
         from tela_esqueceu_senha import TelaEsqueceuSenha
-        self.tela_login.withdraw()
-        tela_esqueceu_senha = ctk.CTkToplevel()
+        self.tela_login.withdraw() # Oculta a tela de login
+        tela_esqueceu_senha = ctk.CTkToplevel() # Cria uma nova janela CTkToplevel para a tela esqueceu senha
         TelaEsqueceuSenha(tela_esqueceu_senha, self.banco, self.tela_login)
-        self.tela_login.wait_window(tela_esqueceu_senha)
+        self.tela_login.wait_window(tela_esqueceu_senha) # Aguarda o fechamento da nova janela antes de continuar
+
