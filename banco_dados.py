@@ -24,7 +24,7 @@ class BancoDeDados:
         self.conn.commit()  # salva alterações
         self.desconectar()
 
-    def criar_tabela_laboratorios(self):
+    def criar_tabela_laboratorios(self): #Cria a tabela de laboratorios 
         self.conectar()
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS laboratorios (
                                     id INTEGER PRIMARY KEY,
@@ -52,7 +52,7 @@ class BancoDeDados:
             ]
             self.cursor.executemany("INSERT INTO laboratorios (tipo, numero_lab) VALUES (?, ?)", labs)
 
-    def criar_tabela_reservas(self):
+    def criar_tabela_reservas(self): #Cria a tabela para as reservas
         self.conectar()
         self.cursor.execute('''CREATE TABLE IF NOT EXISTS reservas (
                             id INTEGER PRIMARY KEY,
