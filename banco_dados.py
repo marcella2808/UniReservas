@@ -34,13 +34,13 @@ class BancoDeDados:
         self.adicionar_labs()
         self.conn.commit()
         self.desconectar()
-
-    def adicionar_labs(self):
+    
+    def adicionar_labs(self): # adiciona laboratórios na tabela, se ainda não existirem
         self.conectar()
         self.cursor.execute("SELECT COUNT(*) FROM laboratorios")
         count = self.cursor.fetchone()[0]
 
-        if count == 0:
+        if count == 0: # verifica se já existem laboratórios cadastrados
             labs = [
                 ("Lab 1", 1),  # Dados do laboratório 1
                 ("Lab 2", 2),  # Dados do laboratório 2
@@ -67,20 +67,20 @@ class BancoDeDados:
         self.conn.commit()
         self.desconectar()
 
-    def adicionar_usuario(self, nome, email, senha):
+    def adicionar_usuario(self, nome, email, senha): # adiciona um usuário na tabela
         self.conectar()
         self.cursor.execute('''INSERT INTO usuarios(nome, email, senha) VALUES (?, ?, ?)''', (nome, email, senha))
         self.conn.commit()
         self.desconectar()
 
-    def adicionar_reserva(self, id_usuario, id_laboratorio, data, hora_inicio, hora_fim):
+    def adicionar_reserva(self, id_usuario, id_laboratorio, data, hora_inicio, hora_fim):   # adiciona uma reserva na tabela
         self.conectar()
         self.cursor.execute(
             "INSERT INTO reservas (id_usuario, id_laboratorio, data, hora_inicio, hora_fim) VALUES (?, ?, ?, ?, ?)", (id_usuario, id_laboratorio, data, hora_inicio, hora_fim))
         self.conn.commit()
         self.desconectar()
 
-    def buscar_id_usuario(self, email):
+    def buscar_id_usuario(self, email): # busca o ID de um usuário pelo email
         self.conectar()
         self.cursor.execute("SELECT id FROM usuarios WHERE email = ?", (email,))
         resultado = self.cursor.fetchone()
@@ -89,7 +89,7 @@ class BancoDeDados:
         else:
             return None
 
-    def buscar_id_laboratorio(self, lab_tipo):
+    def buscar_id_laboratorio(self, lab_tipo):  # busca o ID de um laboratório pelo tipo
         self.cursor.execute("SELECT id FROM laboratorios WHERE tipo = ?", (lab_tipo,))
         resultado = self.cursor.fetchone()
         if resultado:
@@ -97,13 +97,13 @@ class BancoDeDados:
         else:
             return None
 
-    def contar_reservas_usuario(self, id_usuario):
+    def contar_reservas_usuario(self, id_usuario): # conta o número de reservas de um usuário
         self.conectar()
         self.cursor.execute("SELECT COUNT(*) FROM reservas WHERE id_usuario = ?", (id_usuario,))
         result = self.cursor.fetchone()[0]
         return result
 
-    def listar_reservas_usuario(self, id_usuario):
+    def listar_reservas_usuario(self, id_usuario): # lista todas as reservas de um usuário
         self.conectar()
         self.cursor.execute("SELECT id, data, hora_inicio, hora_fim, id_laboratorio FROM reservas WHERE id_usuario = ?",
                             (id_usuario,))
@@ -111,7 +111,7 @@ class BancoDeDados:
         self.desconectar()
         return reservas
 
-    def buscar_reservas_por_email(self, email):
+    def buscar_reservas_por_email(self, email): # busca reservas pelo email do usuário
         self.conectar()
         self.cursor.execute('''
             SELECT reservas.id, reservas.data, reservas.hora_inicio, reservas.hora_fim, reservas.id_laboratorio 
@@ -123,13 +123,13 @@ class BancoDeDados:
         self.desconectar()
         return reservas
 
-    def deletar_reserva(self, id_reserva):
+    def deletar_reserva(self, id_reserva): # deleta uma reserva pelo ID
         self.conectar()
         self.cursor.execute('''DELETE FROM reservas WHERE id = ?''', (id_reserva,))
         self.conn.commit()
         self.desconectar()
 
-    def validar_login(self, email, senha):
+    def validar_login(self, email, senha): # valida o login de um usuário
         self.conectar()
         self.cursor.execute('''SELECT * FROM usuarios WHERE email = ? AND senha = ?''',
                             (email, senha))  # realiza uma consulta
@@ -137,12 +137,12 @@ class BancoDeDados:
         self.desconectar()
         return usuario is not None  # retorna True se usuario existir ou Falso se não existir
 
-    def validar_email(self, email):
+    def validar_email(self, email):  # verifica se um email já está cadastrado
         self.conectar()
         self.cursor.execute("SELECT * FROM usuarios WHERE email = ?", (email,))
         usuario = self.cursor.fetchone()
         self.desconectar()
         return usuario is not None
 
-    def desconectar(self):
+    def desconectar(self): # desconecta do banco de dados
         self.conn.close()
